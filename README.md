@@ -14,7 +14,7 @@ Snake game with multiplayer
 
 Libraries that I intend to use:
 
--Qt
+-Qt or SFML
 
 -WinSock2
 
