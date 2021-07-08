@@ -1,0 +1,9 @@
+﻿  game.cpp
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(23,22): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(110,37): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(110,28): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(116,32): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(116,26): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
+  main.cpp
+  Создание кода...
+  Sanke.vcxproj -> C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Debug\Sanke.exe
