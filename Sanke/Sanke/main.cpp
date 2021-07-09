@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+
 #include <sstream>
-#include <iostream>
 #include <ctime>
 
 int last_score = 3;
@@ -13,7 +13,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(600, 600), "Snake");
     window.setFramerateLimit(60);
 
-    Game game;
+    
+	Snake snake;
+	Game game(snake);
     game.setPosition(20.f, 50.f);
 
 	sf::Font font;
@@ -46,14 +48,14 @@ int main()
 			{
 				// ѕолучаем нажатую клавишу - выполн€ем соответствующее действие
 				if (event.key.code == sf::Keyboard::Escape) window.close();
-				if (event.key.code == sf::Keyboard::Left) game.direction = Direction::Left;
-				if (event.key.code == sf::Keyboard::Right) game.direction = Direction::Right;
-				if (event.key.code == sf::Keyboard::Up) game.direction = Direction::Up;
-				if (event.key.code == sf::Keyboard::Down) game.direction = Direction::Down;
+				if (event.key.code == sf::Keyboard::Left) snake.setDirection(Direction::Left);
+				if (event.key.code == sf::Keyboard::Right) snake.setDirection(Direction::Right);
+				if (event.key.code == sf::Keyboard::Up) snake.setDirection(Direction::Up);
+				if (event.key.code == sf::Keyboard::Down) snake.setDirection(Direction::Down);
 				// Ќова€ игра
 				if (event.key.code == sf::Keyboard::F2)
 				{
-					game.initGame();
+					//game.initGame();
 
 				}
 			}
@@ -61,12 +63,12 @@ int main()
 			if (timer > delay)
 			{
 				game.checkCollision();
-				game.move();
+				snake.Move();
 				timer = 0;
 			}
 		}
-		if (last_score != game.dots) {
-			last_score = game.dots;
+		if (last_score != snake.getDots()) {
+			last_score = snake.getDots();
 			ostr << last_score;
 			text.setString(str + ostr.str());
 

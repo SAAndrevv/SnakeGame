@@ -1,22 +1,14 @@
 #include "Game.h"
+#include <iostream>
 
 
-Game::Game() {
-
+Game::Game(Snake & s) : snake(s){
+    
     inGame = true;
-    initGame();
-}
-
-void Game::initGame() {
-	dots = 3;
-
-	for (int i = 0; i < dots; ++i) {
-		x[i] = 50 - i * 10;
-		y[i] = 50;
-	}
-
     generateApple();
+    
 }
+
 
 void Game::generateApple() {
 
@@ -26,63 +18,45 @@ void Game::generateApple() {
     apple_x = (r * DOT_SIZE);
 
     r = std::rand() % W_HEIGHT / 10 - 1;
-    apple_y = (r * DOT_SIZE);
-
-	
-}
-
-void Game::move() {
-    for (int i = dots; i > 0; i--) {
-        x[i] = x[i - 1];
-        y[i] = y[i - 1];
-    }
-
-    if (direction == Direction::Left) {
-        x[0] -= DOT_SIZE;
-    }
-
-    if (direction == Direction::Right) {
-        x[0] += DOT_SIZE;
-    }
-
-    if (direction == Direction::Up) {
-        y[0] -= DOT_SIZE;
-    }
-
-    if (direction == Direction::Down) {
-        y[0] += DOT_SIZE;
-    }
+    apple_y = (r * DOT_SIZE);	
 }
 
 void Game::checkCollision() {
+    int xHead = snake.getXPos(0);
+    int yHead = snake.getYPos(0);
 
-    if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-        dots++;
+    if ((xHead == apple_x) && (yHead == apple_y)) {  
+        
+        snake.setDots(1);
+        
         generateApple();
     }
 
-    for (int i = dots; i > 0; i--) {
+    for (int i = snake.getDots(); i > 0; i--) {
 
-        if ((i > 4) && (x[0] == x[i]) && (y[0] == y[i])) {
-            inGame = false;
+        if ((i > 4) && (xHead == snake.getXPos(i)) && (yHead == snake.getYPos(i))) {
+            //inGame = false;
         }
     }
 
-    if (y[0] >= W_HEIGHT) {
-        y[0] = DOT_SIZE / 2;
+    if (yHead >= W_HEIGHT) {
+        snake.setYPos(0, DOT_SIZE / 2);
+        //y[0] = DOT_SIZE / 2;
     }
 
-    if (y[0] < 0) {
-        y[0] = W_HEIGHT - DOT_SIZE / 2;
+    if (yHead < 0) {
+        snake.setYPos(0, W_HEIGHT - DOT_SIZE / 2);
+        //y[0] = W_HEIGHT - DOT_SIZE / 2;
     }
 
-    if (x[0] >= W_WIDTH) {
-        x[0] = DOT_SIZE / 2;
+    if (xHead >= W_WIDTH) {
+        snake.setXPos(0, DOT_SIZE / 2);
+        //x[0] = DOT_SIZE / 2;
     }
 
-    if (x[0] < 0) {
-        x[0] = W_WIDTH - DOT_SIZE / 2;
+    if (xHead < 0) {
+        snake.setXPos(0, W_WIDTH - DOT_SIZE / 2);
+        //x[0] = W_WIDTH - DOT_SIZE / 2;
     }
 }
 
@@ -106,14 +80,20 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	
 	if (inGame) {
 
-        
+       
         circle.setPosition(apple_x, apple_y);
         target.draw(circle, states);
         circle.setFillColor(sf::Color::Red);
 
+        int dots = snake.getDots();
+        //std::cout << dots;
+
 		for (int i = 0; i < dots; i++)
 		{
-			circle.setPosition(x[i], y[i]);
+            int x = snake.getXPos(i);
+            int y = snake.getYPos(i);
+
+			circle.setPosition(x, y);
 			target.draw(circle, states);
 
 		}	
