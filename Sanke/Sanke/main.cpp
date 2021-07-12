@@ -1,13 +1,17 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+//#include "Server.cpp"
+//#include "Client.cpp"
 
 #include <sstream>
 #include <ctime>
+
 
 int last_score = 3;
 
 int main()
 {
+
 	std::ostringstream ostr;
 	std::string str = "Score ";
     sf::RenderWindow window(sf::VideoMode(600, 600), "Snake");
