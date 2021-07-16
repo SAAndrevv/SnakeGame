@@ -2,15 +2,25 @@
 #include <iostream>
 
 Snake::Snake() {
-	dots = 3;
-
-	for (int i = 0; i < dots; ++i) {
-		x[i] = 50 - i * 10;
-		y[i] = 50;
-	}
+    
+    //std::cout << "Def Snake";
 }
 
-void Snake::Move() {
+Snake::Snake(int start) {
+	dots = 3;
+    delay = 0.2;
+    x.resize(dots + 1);
+    y.resize(dots + 1);
+    
+
+	for (int i = 0; i < dots; ++i) {
+		x[i] = start - i;
+		y[i] = 5;
+	}
+    //std::cout << "Cast Snake";
+}
+
+bool Snake::Move(Direction direction) {
     
     for (int i = dots; i > 0; i--) {
         
@@ -19,53 +29,23 @@ void Snake::Move() {
     }
 
     if (direction == Direction::Left) {
-        x[0] -= DOT_SIZE;
+        x[0]--;
     }
 
     if (direction == Direction::Right) {
-        x[0] += DOT_SIZE;
+        x[0]++;
     }
 
     if (direction == Direction::Up) {
-        y[0] -= DOT_SIZE;
+        y[0]--;
     }
 
     if (direction == Direction::Down) {
-        y[0] += DOT_SIZE;
+        y[0]++;
     }
+
+    return checkCol();
 }
-
-//void Snake::checkCollision() {
-
-    //if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-        //dots++;
-        //generateApple();
-    //}
-
-    //for (int i = dots; i > 0; i--) {
-
-        //if ((i > 4) && (x[0] == x[i]) && (y[0] == y[i])) {
-            //inGame = false;
-        //}
-    //}
-
-    //if (y[0] >= W_HEIGHT) {
-        //y[0] = DOT_SIZE / 2;
-    //}
-
-    //if (y[0] < 0) {
-        //y[0] = W_HEIGHT - DOT_SIZE / 2;
-    //}
-
-    //if (x[0] >= W_WIDTH) {
-        //x[0] = DOT_SIZE / 2;
-    //}
-
-    //if (x[0] < 0) {
-        //x[0] = W_WIDTH - DOT_SIZE / 2;
-    //}
-//}
 
 int Snake::getXPos(int ind) const{
     return x[ind];
@@ -89,9 +69,40 @@ int Snake::getDots() const{
 
 void Snake::setDots(int count) {
     dots += count;
+
+    x.resize(dots + 1);
+    y.resize(dots + 1);
     
 }
 
-void Snake::setDirection(Direction _direction) {
-    direction = _direction;
+//void Snake::setDirection(Direction _direction) {
+    //direction = _direction;
+//}
+
+std::vector<int> Snake::getXVector() {
+    return x;
+}
+
+std::vector<int> Snake::getYVector() {
+    return y;
+}
+
+float Snake::getDelay() {
+    return delay;
+}
+
+void Snake::setDelay(float d) {
+    delay += d;
+}
+
+bool Snake::checkCol() {
+
+    for (int i = dots; i > 0; i--) {
+        
+        if ((dots > 4)&& (x[0] == x[i]) && (y[0] == y[i])) {
+            std::cout << "Lose";
+            return false;
+        }
+    }
+    return true;
 }

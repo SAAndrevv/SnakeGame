@@ -1,3 +1,10 @@
-﻿main.obj : error LNK2005: "void __cdecl client(void)" (?client@@YAXXZ) уже определен в Client.obj
-Server.obj : error LNK2005: "void __cdecl sock(void)" (?sock@@YAXXZ) уже определен в main.obj
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Debug\Sanke.exe : fatal error LNK1169: обнаружен многократно определенный символ - один или более
+﻿  game.cpp
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(25,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(44,22): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(116,37): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(116,28): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(129,52): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(129,38): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  main.cpp
+  Создание кода...
+  Sanke.vcxproj -> C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Debug\Sanke.exe

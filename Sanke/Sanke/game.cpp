@@ -2,10 +2,39 @@
 #include <iostream>
 
 
-Game::Game(Snake & s) : snake(s){
-    
+Game::Game(int c) {
+    count = c;
+    snakes.resize(c);
+    //std::cout << "Test";
+    for (int i = 0; i < c; i++) {
+        snakes[i] = Snake(i * 10 + 20);
+        //std::cout << i << std::endl;
+    }
     inGame = true;
     generateApple();
+    
+}
+
+void Game::setID(int id_c) {
+    id = id_c;
+}
+void Game::moveSnake(Direction dir, Direction dir2) {
+    
+    //std::cout << dir1;
+    
+    for (int i = 0; i < snakes.size(); ++i) {
+        if (i == id) {
+            snakes[i].Move(dir);
+        }
+        else {
+            
+            snakes[i].Move(dir2);
+        }
+
+    }
+    //for (Snake & snake : snakes) {
+        //snake.Move(dir);
+    //}
     
 }
 
@@ -14,50 +43,53 @@ void Game::generateApple() {
 
 	std::srand(std::time(nullptr));
 
-    int r = std::rand() % W_WIDTH / 10 - 1;
+    int r = std::rand() % RAND_POS;
     apple_x = (r * DOT_SIZE);
 
-    r = std::rand() % W_HEIGHT / 10 - 1;
+    r = std::rand() % RAND_POS;
     apple_y = (r * DOT_SIZE);	
 }
 
 void Game::checkCollision() {
-    int xHead = snake.getXPos(0);
-    int yHead = snake.getYPos(0);
+    for (Snake &snake : snakes) {
 
-    if ((xHead == apple_x) && (yHead == apple_y)) {  
-        
-        snake.setDots(1);
-        
-        generateApple();
-    }
+        int xHead = snake.getXPos(0);
+        int yHead = snake.getYPos(0);
 
-    for (int i = snake.getDots(); i > 0; i--) {
+        if ((xHead * DOT_SIZE == apple_x) && (yHead * DOT_SIZE == apple_y)) {
 
-        if ((i > 4) && (xHead == snake.getXPos(i)) && (yHead == snake.getYPos(i))) {
-            //inGame = false;
+            snake.setDots(1);
+
+            generateApple();
+        }
+
+        if (yHead >= W_HEIGHT) {
+            snake.setYPos(0, 1);
+            //y[0] = DOT_SIZE / 2;
+        }
+
+        if (yHead < 1) {
+            snake.setYPos(0, RAND_POS);
+            //y[0] = W_HEIGHT - DOT_SIZE / 2;
+        }
+
+        if (xHead >= W_WIDTH) {
+            snake.setXPos(0, 1);
+            //x[0] = DOT_SIZE / 2;
+        }
+
+        if (xHead < 1) {
+            snake.setXPos(0, RAND_POS);
+            //x[0] = W_WIDTH - DOT_SIZE / 2;
         }
     }
-
-    if (yHead >= W_HEIGHT) {
-        snake.setYPos(0, DOT_SIZE / 2);
-        //y[0] = DOT_SIZE / 2;
+}
+std::vector<int> Game::getDots() {
+    std::vector<int> tmp;
+    for (int i = 0; i < count; ++i) {
+        tmp.push_back(snakes[i].getDots());
     }
-
-    if (yHead < 0) {
-        snake.setYPos(0, W_HEIGHT - DOT_SIZE / 2);
-        //y[0] = W_HEIGHT - DOT_SIZE / 2;
-    }
-
-    if (xHead >= W_WIDTH) {
-        snake.setXPos(0, DOT_SIZE / 2);
-        //x[0] = DOT_SIZE / 2;
-    }
-
-    if (xHead < 0) {
-        snake.setXPos(0, W_WIDTH - DOT_SIZE / 2);
-        //x[0] = W_WIDTH - DOT_SIZE / 2;
-    }
+    return tmp;
 }
 
 
@@ -66,7 +98,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	states.transform *= getTransform();
 	sf::Color color = sf::Color(200, 100, 200);
 
-	sf::RectangleShape shape(sf::Vector2f(560, 530));
+	sf::RectangleShape shape(sf::Vector2f(W_WIDTH, W_HEIGHT));
 	shape.setOutlineThickness(2.f);
 	shape.setOutlineColor(color);
 	shape.setFillColor(sf::Color::Transparent);
@@ -85,17 +117,19 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(circle, states);
         circle.setFillColor(sf::Color::Red);
 
-        int dots = snake.getDots();
-        //std::cout << dots;
+        for (Snake snake : snakes) {
+            int dots = snake.getDots();
+            //std::cout << dots;
 
-		for (int i = 0; i < dots; i++)
-		{
-            int x = snake.getXPos(i);
-            int y = snake.getYPos(i);
+            for (int i = 0; i < dots; i++)
+            {
+                int x = snake.getXPos(i);
+                int y = snake.getYPos(i);
 
-			circle.setPosition(x, y);
-			target.draw(circle, states);
+                circle.setPosition(x * DOT_SIZE, y * DOT_SIZE);
+                target.draw(circle, states);
 
-		}	
+            }
+        }
 	}
 }

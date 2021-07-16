@@ -1,33 +1,51 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
-//#include "Server.cpp"
-//#include "Client.cpp"
-
+#include "Client.h"
 #include <sstream>
 #include <ctime>
 
+int you;
+int enemy;
+static int count = 2;
 
 int last_score = 3;
+Direction direction;
+
+extern Direction getPack;
+std::vector<int> dots;
+
 
 int main()
 {
+	if (startNet()) {
+		you = 0;
+	}
+	else{
+		you = 1;
+	}
 
+	bool t = true;
 	std::ostringstream ostr;
 	std::string str = "Score ";
-    sf::RenderWindow window(sf::VideoMode(600, 600), "Snake");
+    sf::RenderWindow window(sf::VideoMode(540, 570), "Snake");
     window.setFramerateLimit(60);
 
     
-	Snake snake;
-	Game game(snake);
+	
+	Game game(count);
+	game.setID(you);
     game.setPosition(20.f, 50.f);
 
 	sf::Font font;
 	font.loadFromFile("calibri.ttf");
 
-	sf::Text text("Score 3", font, 20);
-	text.setFillColor(sf::Color::Cyan);
-	text.setPosition(5.f, 5.f);
+	sf::Text text1("Score 3", font, 20);
+	text1.setFillColor(sf::Color::Cyan);
+	text1.setPosition(5.f, 5.f);
+
+	sf::Text text2("Score 3", font, 20);
+	text2.setFillColor(sf::Color::Cyan);
+	text2.setPosition(450.f, 5.f);
 
     sf::Event event;
 
@@ -43,6 +61,12 @@ int main()
 		timer += time;
 		clock.restart();
 
+		sf::Time dt = clock.restart();
+ 
+        float dtAsSeconds = dt.asSeconds();
+
+		sendPacket(direction);
+
 		while (window.pollEvent(event))
 		{
 
@@ -52,38 +76,45 @@ int main()
 			{
 				// ѕолучаем нажатую клавишу - выполн€ем соответствующее действие
 				if (event.key.code == sf::Keyboard::Escape) window.close();
-				if (event.key.code == sf::Keyboard::Left) snake.setDirection(Direction::Left);
-				if (event.key.code == sf::Keyboard::Right) snake.setDirection(Direction::Right);
-				if (event.key.code == sf::Keyboard::Up) snake.setDirection(Direction::Up);
-				if (event.key.code == sf::Keyboard::Down) snake.setDirection(Direction::Down);
+				if (event.key.code == sf::Keyboard::Left) direction = Direction::Left;
+				if (event.key.code == sf::Keyboard::Right) direction = Direction::Right;
+				if (event.key.code == sf::Keyboard::Up) direction = Direction::Up;
+                if (event.key.code == sf::Keyboard::Down) direction = Direction::Down;
 				// Ќова€ игра
 				if (event.key.code == sf::Keyboard::F2)
 				{
 					//game.initGame();
 
 				}
-			}
-
-			if (timer > delay)
+			}			
+		}
+		
+		if (t && timer > delay)
 			{
+
 				game.checkCollision();
-				snake.Move();
+				game.moveSnake(direction, getPack);
 				timer = 0;
 			}
-		}
-		if (last_score != snake.getDots()) {
-			last_score = snake.getDots();
-			ostr << last_score;
-			text.setString(str + ostr.str());
 
-			ostr.str("");
-			ostr.clear();
-			
-		}
+		dots = game.getDots();
+
+		ostr << dots[0];
+		text1.setString(str + ostr.str());
+
+		ostr.str("");
+		ostr.clear();
+
+		ostr << dots[1];
+		text2.setString(str + ostr.str());
+
+		ostr.str("");
+		ostr.clear();
 	
 
 		window.clear();
-		window.draw(text);
+		window.draw(text1);
+		window.draw(text2);
 		window.draw(game);
 		window.display();
 	}
