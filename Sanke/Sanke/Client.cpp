@@ -3,22 +3,70 @@
 bool isHost = false;
 SOCKET Connection;
 
-Direction getPack;
+Packet getPack;
 
 
 void getPacket() {
+	
 	while (true) {
-		recv(Connection, (char*)&getPack, sizeof(getPack), NULL);
+		size_t t;
+		
+		//recv(Connection, (char*)&t, sizeof(t), NULL);
+		//recv(Connection, (char*)&getPack.id, sizeof(int), NULL);
+		
+			//recv(Connection, (char*)&getPack.posXApple, sizeof(int), NULL);
+			//recv(Connection, (char*)&getPack.posYApple, sizeof(int), NULL);
+		
+
+		//recv(Connection, (char*)&t, sizeof(t), NULL);
+		//recv(Connection, (char*)getPack.apple, t, NULL);
+		
+		
+		recv(Connection, (char*)&t, sizeof(t), NULL);
+		getPack.posX.resize(t);
+		recv(Connection, (char*)getPack.posX.data(), t * sizeof(short int), NULL);
+
+		recv(Connection, (char*)&t, sizeof(t), NULL);
+		getPack.posY.resize(t);
+		recv(Connection, (char*)getPack.posY.data(), t * sizeof(short int), NULL);
+		//recv(Connection, (char*)&id, sizeof(int), NULL);
+
+		//recv(Connection, (char*)&getPack, sizeof(getPack), NULL);
+		
 	}
 
 }
 
-void sendPacket(Direction pack) {
-	
-	send(Connection, (char*)&pack, sizeof(pack), NULL);
+void sendPacket(Packet pack) {
+	//int s = 1;
+	//send(Connection, (char*)&s, sizeof(s), NULL);
+	//send(Connection, (char*)&pack.id, sizeof(int), NULL);
+	//if (pack.id == 1) {
+		
+		//send(Connection, (char*)&pack.posXApple, sizeof(int), NULL);
+		//send(Connection, (char*)&pack.posYApple, sizeof(int), NULL);
+	//}
+	//int apple = sizeof(apple);
+	//send(Connection, (char*)&apple, sizeof(apple), NULL);
+	//send(Connection, (char*)pack.apple, apple, NULL);
+
+	int sizeX = pack.posX.size();
+	send(Connection, (char*)&sizeX, sizeof(sizeX), NULL);
+	send(Connection, (char*)pack.posX.data(), sizeX * sizeof(short int), NULL);
+
+	int sizeY = pack.posY.size();
+	send(Connection, (char*)&sizeY, sizeof(sizeY), NULL);
+	send(Connection, (char*)pack.posY.data(), sizeY * sizeof(short int), NULL);
+	//send(Connection, (char*)&pack, sizeof(pack), NULL);
 	//Sleep(500);
+	//
 		
 }
+
+//short int* convertMas(std::vector<short int> mas) {
+	//short int* tmp = new short int[mas.size() + 1];
+
+//}
 
 
 void initSocket() {
@@ -45,6 +93,8 @@ void initSocket() {
 
 
 int startNet() {
+	//getPack.posXApple = 0;
+	//getPack.posYApple = 0;
 
 	//WSAStartup
 	WSAData wsaData;

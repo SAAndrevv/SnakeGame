@@ -12,7 +12,9 @@
 #include <iostream>
 #include <thread>
 #include <vector>
-#include "Snake.h"
+#undef min
+#undef max
+#include "Game.h"
 
 
 #pragma comment(lib, "ws2_32.lib")
@@ -20,7 +22,7 @@
 
 
 void getPacket();
-void sendPacket(Direction);
+void sendPacket(Packet);
 void initSocket();
 int startNet();
 

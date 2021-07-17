@@ -2,94 +2,118 @@
 #include <iostream>
 
 
-Game::Game(int c) {
-    count = c;
-    snakes.resize(c);
-    //std::cout << "Test";
-    for (int i = 0; i < c; i++) {
-        snakes[i] = Snake(i * 10 + 20);
-        //std::cout << i << std::endl;
-    }
+Game::Game() {
+    //pack = pack_;
+    
+    snake = new Snake(20, SIZE_FIELD);
+    //generateApple();
+    int apple_x = 0;
+    int apple_y = 0;
+    
     inGame = true;
-    generateApple();
+    
     
 }
+
+//void Game::addSnake(Packet pac) {
+    //Snake* s = new Snake(pac, SIZE_FIELD);
+//}
 
 void Game::setID(int id_c) {
     id = id_c;
 }
-void Game::moveSnake(Direction dir, Direction dir2) {
-    
-    //std::cout << dir1;
-    
-    for (int i = 0; i < snakes.size(); ++i) {
-        if (i == id) {
-            snakes[i].Move(dir);
-        }
-        else {
-            
-            snakes[i].Move(dir2);
-        }
+void Game::moveSnake(Direction dir, Packet pack) {
 
-    }
-    //for (Snake & snake : snakes) {
-        //snake.Move(dir);
-    //}
+    snake->Move(dir);
+    packGet = pack;
+    //generatePack();
+
+    //snakes[!id]->setDots(pack.posX.size());
+    
+    //snakes[!id]->setXVector(pack.posX);
+    //snakes[!id]->setYVector(pack.posY);
+
+}
+
+Packet Game::generatePack(int id) {
+    Packet tmp;
+    //tmp.id = id;
+    //tmp.posXApple = apple_x;
+    //tmp.posYApple = apple_y;
+    //tmp.apple[0] = apple_x;
+    //tmp.apple[1] = apple_y;
+
+    //tmp.posX.resize(snake->getDots());
+    //tmp.posY.resize(snake->getDots());
+    tmp.posX = snake->getXVector();
+    tmp.posY = snake->getYVector();
+    //tmp.dots = dots;
+
+    return tmp;
+    
     
 }
+
+    
+void Game::appleFromHost(Packet pack) {
+    //apple_x = pack.apple[0];
+    //apple_y = pack.apple[1];
+}
+
+//void Game::appleToClient() {
+    //pack.posXApple = apple_x;
+    //pack.posYApple = apple_y;
+//}
 
 
 void Game::generateApple() {
 
 	std::srand(std::time(nullptr));
 
-    int r = std::rand() % RAND_POS;
-    apple_x = (r * DOT_SIZE);
+    // От 1 до SIZE_FIELD включительно
 
-    r = std::rand() % RAND_POS;
-    apple_y = (r * DOT_SIZE);	
+    int r = std::rand() % SIZE_FIELD + 1;
+    apple_x = r;
+
+    r = std::rand() % SIZE_FIELD + 1;
+    apple_y = r;	
+
+    //pack.posXApple = apple_x;
+    //pack.posYApple = apple_y;
 }
 
-void Game::checkCollision() {
-    for (Snake &snake : snakes) {
+bool Game::checkCollision() {
 
-        int xHead = snake.getXPos(0);
-        int yHead = snake.getYPos(0);
+    //if (snakes[0]->collisionWithAnotherSanke(*(snakes[1])) ||
+        //snakes[1]->collisionWithAnotherSanke(*(snakes[0]))) {
+        //inGame = false;
+        //std::cout << "Collision snakes";
+    //}
+        int xHead = snake->getXPos(0);
+        int yHead = snake->getYPos(0);
 
-        if ((xHead * DOT_SIZE == apple_x) && (yHead * DOT_SIZE == apple_y)) {
+        if ((xHead == apple_x) && (yHead == apple_y)) {
 
-            snake.setDots(1);
-
+            snake->addDots(1);
             generateApple();
+            return true;
+            
+            //if (snake == snakes[id]) { generateApple(); ret = 1; return ret; }
+            
         }
-
-        if (yHead >= W_HEIGHT) {
-            snake.setYPos(0, 1);
-            //y[0] = DOT_SIZE / 2;
-        }
-
-        if (yHead < 1) {
-            snake.setYPos(0, RAND_POS);
-            //y[0] = W_HEIGHT - DOT_SIZE / 2;
-        }
-
-        if (xHead >= W_WIDTH) {
-            snake.setXPos(0, 1);
-            //x[0] = DOT_SIZE / 2;
-        }
-
-        if (xHead < 1) {
-            snake.setXPos(0, RAND_POS);
-            //x[0] = W_WIDTH - DOT_SIZE / 2;
-        }
-    }
+        return false;
+        
+    
+    //return ret;
+    
+    
 }
-std::vector<int> Game::getDots() {
-    std::vector<int> tmp;
-    for (int i = 0; i < count; ++i) {
-        tmp.push_back(snakes[i].getDots());
-    }
-    return tmp;
+int Game::getDots() {
+    return snake->getDots();
+}
+
+void Game::drawAnotherSnake(Packet pac){
+    packGet = pac;
 }
 
 
@@ -113,23 +137,37 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	if (inGame) {
 
        
-        circle.setPosition(apple_x, apple_y);
+        circle.setPosition(apple_x * DOT_SIZE, apple_y * DOT_SIZE);
         target.draw(circle, states);
         circle.setFillColor(sf::Color::Red);
 
-        for (Snake snake : snakes) {
-            int dots = snake.getDots();
+        
+        int dots = snake->getDots();
             //std::cout << dots;
 
-            for (int i = 0; i < dots; i++)
-            {
-                int x = snake.getXPos(i);
-                int y = snake.getYPos(i);
+        for (int i = 0; i < dots; i++)
+        {
+            int x = snake->getXPos(i);
+            int y = snake->getYPos(i);
 
-                circle.setPosition(x * DOT_SIZE, y * DOT_SIZE);
-                target.draw(circle, states);
+            circle.setPosition(x * DOT_SIZE, y * DOT_SIZE);
+            target.draw(circle, states);
 
-            }
         }
+
+        dots = packGet.posX.size() - 1;
+
+        for (int i = 0; i < dots; ++i) {
+            circle.setPosition(packGet.posX[i] * DOT_SIZE, packGet.posY[i] * DOT_SIZE);
+            target.draw(circle, states);
+        }
+        
 	}
+}
+
+
+Game::~Game() {
+    
+    delete snake;
+    
 }

@@ -4,25 +4,44 @@
 #include <sstream>
 #include <ctime>
 
-int you;
+int idClient;
 int enemy;
 static int count = 2;
 
 int last_score = 3;
 Direction direction;
 
-extern Direction getPack;
-std::vector<int> dots;
+extern Packet getPack;
+Packet copy;
+Packet sendPack;
+int dots;
 
 
 int main()
 {
+	Game game;
+
 	if (startNet()) {
-		you = 0;
+		idClient = 0; //host
+		game.generateApple();
+		sendPack = game.generatePack(1);
+		
+		
 	}
 	else{
-		you = 1;
+		idClient = 1;	
+		sendPack = game.generatePack(0);
+		//game.appleFromHost(getPack);
 	}
+	sendPacket(sendPack);
+	//std::cout << "test1 " << sendPack.apple[0] << " " << sendPack.apple[1] << std::endl;
+	
+	
+
+	//std::cout << sendPack.posXApple << " " << sendPack.posYApple << std::endl;
+	//std::cout << sendPack.posX[0] << " " << sendPack.posY[0] << std::endl;
+	//while(!getPack.posXApple)
+	
 
 	bool t = true;
 	std::ostringstream ostr;
@@ -30,10 +49,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(540, 570), "Snake");
     window.setFramerateLimit(60);
 
-    
 	
-	Game game(count);
-	game.setID(you);
+	game.setID(idClient);
+	
     game.setPosition(20.f, 50.f);
 
 	sf::Font font;
@@ -48,24 +66,37 @@ int main()
 	text2.setPosition(450.f, 5.f);
 
     sf::Event event;
+	//if (idClient) {
+		//game.appleFromHost(getPack);
+		
+		//std::cout << getPack.posXApple << " " << getPack.posYApple << std::endl;
+	//}
 
-	sf::Clock clock;
-	float time = 0.0f;
-	float timer = 0.0f;
-	float delay = 0.0f;
+	//sf::Clock clock;
+	//float time = 0.0f;
+	//float timer = 0.0f;
+	//float delay = 0.0f;
 
 	while (window.isOpen())
 	{
-		delay = 0.3f;
-		time = clock.getElapsedTime().asSeconds();
-		timer += time;
-		clock.restart();
+		//if (getPack.id == 1) {
+			
+			//game.appleFromHost(getPack);
+			//std::cout << "test " << getPack.apple[0] << " " << getPack.apple[1] << std::endl;
+		//}
+		//copy = getPack;
+		//std::cout << getPack.posXApple << " " << getPack.posYApple << std::endl;
+		//delay = 0.3f;
+		//time = clock.getElapsedTime().asSeconds();
+		//timer += time;
+		//clock.restart();
 
-		sf::Time dt = clock.restart();
- 
-        float dtAsSeconds = dt.asSeconds();
-
-		sendPacket(direction);
+		//sf::Time dt = clock.restart();
+       // float dtAsSeconds = dt.asSeconds();
+		//sendPack.dir = direction;
+		//sendPack = game.generatePack();
+		//sendPacket(sendPack);
+		//game.drawAnotherSnake(copy);
 
 		while (window.pollEvent(event))
 		{
@@ -89,27 +120,35 @@ int main()
 			}			
 		}
 		
-		if (t && timer > delay)
-			{
+		//if (t) // && timer > delay
+		//{
+			
+		game.moveSnake(direction, getPack);
+		if (game.checkCollision()) {
+			sendPack = game.generatePack(1);
+		}
+		else{
+			sendPack = game.generatePack(0);
+		}
 
-				game.checkCollision();
-				game.moveSnake(direction, getPack);
-				timer = 0;
-			}
+		sendPacket(sendPack);
+		
+			//timer = 0;
+		//}
 
 		dots = game.getDots();
 
-		ostr << dots[0];
+		ostr << dots;
 		text1.setString(str + ostr.str());
 
 		ostr.str("");
 		ostr.clear();
 
-		ostr << dots[1];
-		text2.setString(str + ostr.str());
+		//ostr << dots[1];
+		//text2.setString(str + ostr.str());
 
-		ostr.str("");
-		ostr.clear();
+		//ostr.str("");
+		//ostr.clear();
 	
 
 		window.clear();
