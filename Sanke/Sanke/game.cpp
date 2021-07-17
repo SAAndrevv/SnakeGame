@@ -37,11 +37,11 @@ void Game::moveSnake(Direction dir, Packet pack) {
 
 Packet Game::generatePack(int id) {
     Packet tmp;
-    //tmp.id = id;
+    tmp.id = id;
     //tmp.posXApple = apple_x;
     //tmp.posYApple = apple_y;
-    //tmp.apple[0] = apple_x;
-    //tmp.apple[1] = apple_y;
+    tmp.apple[0] = apple_x;
+    tmp.apple[1] = apple_y;
 
     //tmp.posX.resize(snake->getDots());
     //tmp.posY.resize(snake->getDots());
@@ -56,8 +56,8 @@ Packet Game::generatePack(int id) {
 
     
 void Game::appleFromHost(Packet pack) {
-    //apple_x = pack.apple[0];
-    //apple_y = pack.apple[1];
+    apple_x = pack.apple[0];
+    apple_y = pack.apple[1];
 }
 
 //void Game::appleToClient() {

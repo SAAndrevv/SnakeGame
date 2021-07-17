@@ -7,12 +7,14 @@ Packet getPack;
 
 
 void getPacket() {
-	
+	int bit;
 	while (true) {
 		size_t t;
+		size_t t1;
 		
 		//recv(Connection, (char*)&t, sizeof(t), NULL);
-		//recv(Connection, (char*)&getPack.id, sizeof(int), NULL);
+		
+		//if()
 		
 			//recv(Connection, (char*)&getPack.posXApple, sizeof(int), NULL);
 			//recv(Connection, (char*)&getPack.posYApple, sizeof(int), NULL);
@@ -30,25 +32,31 @@ void getPacket() {
 		getPack.posY.resize(t);
 		recv(Connection, (char*)getPack.posY.data(), t * sizeof(short int), NULL);
 		//recv(Connection, (char*)&id, sizeof(int), NULL);
-
+		
+		recv(Connection, (char*)&t1, sizeof(t), NULL);
+		recv(Connection, (char*)getPack.apple.data(), t1 * sizeof(short int), NULL);
 		//recv(Connection, (char*)&getPack, sizeof(getPack), NULL);
+		recv(Connection, (char*)&getPack.id, sizeof(int), NULL);
+
+		
+
+		//recv(Connection, (char*)&bit, sizeof(int), NULL);
+		//std::cout << getPack.apple[1] <<  " get" << std::endl;
 		
 	}
 
 }
 
 void sendPacket(Packet pack) {
-	//int s = 1;
+	//int bit = 1;
 	//send(Connection, (char*)&s, sizeof(s), NULL);
-	//send(Connection, (char*)&pack.id, sizeof(int), NULL);
+	//
 	//if (pack.id == 1) {
 		
 		//send(Connection, (char*)&pack.posXApple, sizeof(int), NULL);
 		//send(Connection, (char*)&pack.posYApple, sizeof(int), NULL);
 	//}
-	//int apple = sizeof(apple);
-	//send(Connection, (char*)&apple, sizeof(apple), NULL);
-	//send(Connection, (char*)pack.apple, apple, NULL);
+	//
 
 	int sizeX = pack.posX.size();
 	send(Connection, (char*)&sizeX, sizeof(sizeX), NULL);
@@ -57,6 +65,21 @@ void sendPacket(Packet pack) {
 	int sizeY = pack.posY.size();
 	send(Connection, (char*)&sizeY, sizeof(sizeY), NULL);
 	send(Connection, (char*)pack.posY.data(), sizeY * sizeof(short int), NULL);
+
+	int sizeApple = pack.apple.size();
+	send(Connection, (char*)&sizeApple, sizeof(sizeApple), NULL);
+	send(Connection, (char*)pack.apple.data(), sizeApple * sizeof(short int), NULL);
+
+	send(Connection, (char*)&pack.id, sizeof(int), NULL);
+	
+	
+
+	//send(Connection, (char*)&bit, sizeof(int), NULL);
+
+
+	//std::cout << pack.apple[1] << " send" << std::endl;
+
+
 	//send(Connection, (char*)&pack, sizeof(pack), NULL);
 	//Sleep(500);
 	//

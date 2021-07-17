@@ -24,14 +24,11 @@ int main()
 	if (startNet()) {
 		idClient = 0; //host
 		game.generateApple();
-		sendPack = game.generatePack(1);
-		
-		
+		sendPack = game.generatePack(1);	
 	}
 	else{
 		idClient = 1;	
 		sendPack = game.generatePack(0);
-		//game.appleFromHost(getPack);
 	}
 	sendPacket(sendPack);
 	//std::cout << "test1 " << sendPack.apple[0] << " " << sendPack.apple[1] << std::endl;
@@ -43,7 +40,7 @@ int main()
 	//while(!getPack.posXApple)
 	
 
-	bool t = true;
+	//bool t = true;
 	std::ostringstream ostr;
 	std::string str = "Score ";
     sf::RenderWindow window(sf::VideoMode(540, 570), "Snake");
@@ -79,11 +76,14 @@ int main()
 
 	while (window.isOpen())
 	{
-		//if (getPack.id == 1) {
+		//copy = getPack;
+		if (getPack.id == 1) {
 			
-			//game.appleFromHost(getPack);
-			//std::cout << "test " << getPack.apple[0] << " " << getPack.apple[1] << std::endl;
-		//}
+			game.appleFromHost(getPack);
+			//std::cout << "test2 " << getPack.apple[0] << " " << getPack.apple[1] << std::endl;
+			//Sleep(50000);
+			//while (1);
+		}
 		//copy = getPack;
 		//std::cout << getPack.posXApple << " " << getPack.posYApple << std::endl;
 		//delay = 0.3f;
@@ -120,7 +120,7 @@ int main()
 			}			
 		}
 		
-		//if (t) // && timer > delay
+		//if (timer > delay) // && 
 		//{
 			
 		game.moveSnake(direction, getPack);
@@ -133,8 +133,7 @@ int main()
 
 		sendPacket(sendPack);
 		
-			//timer = 0;
-		//}
+		
 
 		dots = game.getDots();
 

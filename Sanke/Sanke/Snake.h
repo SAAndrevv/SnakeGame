@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <array>
 #undef min
 #undef max
 #include <SFML/Graphics.hpp>
@@ -10,12 +11,13 @@ struct Packet
 	//int posXApple;
 	//int posYApple;
 	//int dots;
-	//int apple[2];
+	std::array<short int, 2> apple;
 	std::vector<short int> posX;
 	std::vector<short int> posY;
-	//int id;
+	int id;
 
 };
+
 
 enum class Direction { Left, Right, Up, Down };
 const int ALL_DOTS = 3600;
