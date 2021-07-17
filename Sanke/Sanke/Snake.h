@@ -7,15 +7,11 @@
 
 struct Packet
 {
-	
-	//int posXApple;
-	//int posYApple;
-	//int dots;
 	std::array<short int, 2> apple;
 	std::vector<short int> posX;
 	std::vector<short int> posY;
 	int id;
-
+	int dots;
 };
 
 
@@ -25,10 +21,10 @@ const int ALL_DOTS = 3600;
 class Snake {
 
 public:
-	Snake();
+	//Snake();
 	Snake(int, int);
 	//void initSnake();
-	bool Move(Direction);
+	void Move(Direction);
 	int getXPos(int) const;
 	int getYPos(int) const;
 	void setXPos(int, int);
@@ -38,7 +34,7 @@ public:
 	//void setDirection(Direction);
 	float getDelay();
 	void setDelay(float);
-	//bool collisionWithAnotherSanke(Snake &);
+	bool collisionWithAnotherSanke(Packet);
 
 	std::vector<short int> getXVector();
 	std::vector<short int> getYVector();
@@ -53,7 +49,7 @@ private:
 	float delay;
 	//Direction direction;
 	static const int DOT_SIZE = 10;
-	bool checkCol();
+	void checkCol();
 	int sField;
 
 	int dots;

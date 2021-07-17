@@ -2,14 +2,6 @@
 #include <iostream>
 
 
-
-Snake::Snake() {
-    time = 0.0f;
-    timer = 0.0f;
-    delay = 0.0;
-    
-}
-
 Snake::Snake(int start, int size_field) {
     sField = size_field;
     time = 0.0f;
@@ -27,14 +19,20 @@ Snake::Snake(int start, int size_field) {
 	}
 }
 
-
-bool Snake::Move(Direction direction) {
-    
+void Snake::Move(Direction direction) {
+    static Direction lastRemoveDirection = Direction::Right;
+    static Direction lastDirection = Direction::Left;
     time = clock.getElapsedTime().asSeconds();
     timer += time;
     clock.restart();
 
     if (timer > delay) {
+
+        if (direction == lastRemoveDirection) {
+            direction = lastDirection;
+            //std::cout << "Wrong move";
+            //return;
+        }
 
         for (int i = dots; i > 0; i--) {
 
@@ -43,25 +41,33 @@ bool Snake::Move(Direction direction) {
         }
 
         if (direction == Direction::Left) {
+            lastRemoveDirection = Direction::Right;
             x[0]--;
         }
 
         if (direction == Direction::Right) {
+            lastRemoveDirection = Direction::Left;
             x[0]++;
         }
 
         if (direction == Direction::Up) {
+            lastRemoveDirection = Direction::Down;
             y[0]--;
         }
 
         if (direction == Direction::Down) {
+            lastRemoveDirection = Direction::Up;
             y[0]++;
         }
 
+        lastDirection = direction;
+
+       
         timer = 0;
         
     }
-    return checkCol();
+
+    checkCol();
 }
 
 int Snake::getXPos(int ind) const{
@@ -119,13 +125,13 @@ void Snake::setDelay(float d) {
     delay += d;
 }
 
-bool Snake::checkCol() {
+void Snake::checkCol() {
 
     for (int i = dots; i > 0; i--) {
         
         if ((dots > 4)&& (x[0] == x[i]) && (y[0] == y[i])) {
             std::cout << "Lose";
-            return false;
+            //return false;
         }
     }
     if (y[0] > sField) {
@@ -143,15 +149,15 @@ bool Snake::checkCol() {
     if (x[0] < 1) {
         x[0] = sField;
     }
-    return true;
+    //return true;
 }
 
-//bool Snake::collisionWithAnotherSanke(Snake &snake) {
-    //int lenghSnake = snake.getDots();
+bool Snake::collisionWithAnotherSanke(Packet pac) {
+    int lenghSnake = pac.posX.size() - 1;
 
-    //for (int i = 0; i < lenghSnake; ++i) {
-        //if (x[0] == snake.getXPos(i) && y[0] == snake.getYPos(i))
-            //return true;
-    //}
-   // return false;
-//}
+    for (int i = 0; i < lenghSnake; ++i) {
+        if (x[0] == pac.posX[0] && y[0] == pac.posY[0])
+            return true;
+    }
+   return false;
+}

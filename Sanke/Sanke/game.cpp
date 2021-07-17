@@ -2,11 +2,8 @@
 #include <iostream>
 
 
-Game::Game() {
-    //pack = pack_;
-    
+Game::Game() {   
     snake = new Snake(20, SIZE_FIELD);
-    //generateApple();
     int apple_x = 0;
     int apple_y = 0;
     
@@ -14,10 +11,6 @@ Game::Game() {
     
     
 }
-
-//void Game::addSnake(Packet pac) {
-    //Snake* s = new Snake(pac, SIZE_FIELD);
-//}
 
 void Game::setID(int id_c) {
     id = id_c;
@@ -38,16 +31,11 @@ void Game::moveSnake(Direction dir, Packet pack) {
 Packet Game::generatePack(int id) {
     Packet tmp;
     tmp.id = id;
-    //tmp.posXApple = apple_x;
-    //tmp.posYApple = apple_y;
     tmp.apple[0] = apple_x;
     tmp.apple[1] = apple_y;
-
-    //tmp.posX.resize(snake->getDots());
-    //tmp.posY.resize(snake->getDots());
     tmp.posX = snake->getXVector();
     tmp.posY = snake->getYVector();
-    //tmp.dots = dots;
+    tmp.dots = snake->getDots();
 
     return tmp;
     
@@ -59,11 +47,6 @@ void Game::appleFromHost(Packet pack) {
     apple_x = pack.apple[0];
     apple_y = pack.apple[1];
 }
-
-//void Game::appleToClient() {
-    //pack.posXApple = apple_x;
-    //pack.posYApple = apple_y;
-//}
 
 
 void Game::generateApple() {
@@ -84,11 +67,9 @@ void Game::generateApple() {
 
 bool Game::checkCollision() {
 
-    //if (snakes[0]->collisionWithAnotherSanke(*(snakes[1])) ||
-        //snakes[1]->collisionWithAnotherSanke(*(snakes[0]))) {
-        //inGame = false;
-        //std::cout << "Collision snakes";
-    //}
+    if (snake->collisionWithAnotherSanke(packGet)){
+        std::cout << "Collision snakes";
+    }
         int xHead = snake->getXPos(0);
         int yHead = snake->getYPos(0);
 
@@ -96,16 +77,9 @@ bool Game::checkCollision() {
 
             snake->addDots(1);
             generateApple();
-            return true;
-            
-            //if (snake == snakes[id]) { generateApple(); ret = 1; return ret; }
-            
+            return true;   
         }
-        return false;
-        
-    
-    //return ret;
-    
+        return false;   
     
 }
 int Game::getDots() {

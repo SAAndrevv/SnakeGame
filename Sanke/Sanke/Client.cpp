@@ -38,6 +38,8 @@ void getPacket() {
 		//recv(Connection, (char*)&getPack, sizeof(getPack), NULL);
 		recv(Connection, (char*)&getPack.id, sizeof(int), NULL);
 
+		recv(Connection, (char*)&getPack.dots, sizeof(int), NULL);
+
 		
 
 		//recv(Connection, (char*)&bit, sizeof(int), NULL);
@@ -71,10 +73,8 @@ void sendPacket(Packet pack) {
 	send(Connection, (char*)pack.apple.data(), sizeApple * sizeof(short int), NULL);
 
 	send(Connection, (char*)&pack.id, sizeof(int), NULL);
-	
-	
 
-	//send(Connection, (char*)&bit, sizeof(int), NULL);
+	send(Connection, (char*)&pack.dots, sizeof(int), NULL);
 
 
 	//std::cout << pack.apple[1] << " send" << std::endl;

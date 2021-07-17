@@ -133,21 +133,18 @@ int main()
 
 		sendPacket(sendPack);
 		
-		
 
-		dots = game.getDots();
-
-		ostr << dots;
+		ostr << game.getDots();
 		text1.setString(str + ostr.str());
 
 		ostr.str("");
 		ostr.clear();
 
-		//ostr << dots[1];
-		//text2.setString(str + ostr.str());
+		ostr << getPack.dots;
+		text2.setString(str + ostr.str());
 
-		//ostr.str("");
-		//ostr.clear();
+		ostr.str("");
+		ostr.clear();
 	
 
 		window.clear();

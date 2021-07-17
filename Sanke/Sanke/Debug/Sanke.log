@@ -1,2 +1,14 @@
-﻿  main.cpp
+﻿  Client.cpp
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\Client.cpp(10,6): warning C4101: bit: неиспользованная локальная переменная
+  game.cpp
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(54,22): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(114,56): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(114,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(127,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(127,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(135,76): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(135,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  main.cpp
+  snake.cpp
+  Создание кода...
   Sanke.vcxproj -> C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Debug\Sanke.exe
