@@ -7,22 +7,8 @@ Packet getPack;
 
 
 void getPacket() {
-	int bit;
 	while (true) {
 		size_t t;
-		size_t t1;
-		
-		//recv(Connection, (char*)&t, sizeof(t), NULL);
-		
-		//if()
-		
-			//recv(Connection, (char*)&getPack.posXApple, sizeof(int), NULL);
-			//recv(Connection, (char*)&getPack.posYApple, sizeof(int), NULL);
-		
-
-		//recv(Connection, (char*)&t, sizeof(t), NULL);
-		//recv(Connection, (char*)getPack.apple, t, NULL);
-		
 		
 		recv(Connection, (char*)&t, sizeof(t), NULL);
 		getPack.posX.resize(t);
@@ -31,35 +17,29 @@ void getPacket() {
 		recv(Connection, (char*)&t, sizeof(t), NULL);
 		getPack.posY.resize(t);
 		recv(Connection, (char*)getPack.posY.data(), t * sizeof(short int), NULL);
-		//recv(Connection, (char*)&id, sizeof(int), NULL);
 		
-		recv(Connection, (char*)&t1, sizeof(t), NULL);
-		recv(Connection, (char*)getPack.apple.data(), t1 * sizeof(short int), NULL);
-		//recv(Connection, (char*)&getPack, sizeof(getPack), NULL);
+		recv(Connection, (char*)&t, sizeof(t), NULL);
+		recv(Connection, (char*)getPack.apple.data(), t * sizeof(short int), NULL);
+		
 		recv(Connection, (char*)&getPack.id, sizeof(int), NULL);
 
 		recv(Connection, (char*)&getPack.dots, sizeof(int), NULL);
 
-		
+		recv(Connection, (char*)&t, sizeof(t), NULL);
+		getPack.bonus.resize(t);
+		for (int i = 0; i < t; ++i) {
+			size_t tTmp;
+			recv(Connection, (char*)&tTmp, sizeof(tTmp), NULL);
+			recv(Connection, (char*)getPack.bonus[i].data(), tTmp * sizeof(short int), NULL);
 
-		//recv(Connection, (char*)&bit, sizeof(int), NULL);
-		//std::cout << getPack.apple[1] <<  " get" << std::endl;
+		}
 		
 	}
 
 }
 
 void sendPacket(Packet pack) {
-	//int bit = 1;
-	//send(Connection, (char*)&s, sizeof(s), NULL);
-	//
-	//if (pack.id == 1) {
-		
-		//send(Connection, (char*)&pack.posXApple, sizeof(int), NULL);
-		//send(Connection, (char*)&pack.posYApple, sizeof(int), NULL);
-	//}
-	//
-
+	
 	int sizeX = pack.posX.size();
 	send(Connection, (char*)&sizeX, sizeof(sizeX), NULL);
 	send(Connection, (char*)pack.posX.data(), sizeX * sizeof(short int), NULL);
@@ -76,20 +56,16 @@ void sendPacket(Packet pack) {
 
 	send(Connection, (char*)&pack.dots, sizeof(int), NULL);
 
+	int sizeBonus = pack.bonus.size();
+	send(Connection, (char*)&sizeBonus, sizeof(sizeBonus), NULL);
+	for (auto& bonus : pack.bonus) {
+		int sizeArrayBonus = bonus.size();
+		send(Connection, (char*)&sizeArrayBonus, sizeof(sizeArrayBonus), NULL);
+		send(Connection, (char*)&bonus, sizeArrayBonus * sizeof(short int), NULL);
 
-	//std::cout << pack.apple[1] << " send" << std::endl;
-
-
-	//send(Connection, (char*)&pack, sizeof(pack), NULL);
-	//Sleep(500);
-	//
+	}
 		
 }
-
-//short int* convertMas(std::vector<short int> mas) {
-	//short int* tmp = new short int[mas.size() + 1];
-
-//}
 
 
 void initSocket() {

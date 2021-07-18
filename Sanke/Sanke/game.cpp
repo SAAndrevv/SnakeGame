@@ -6,7 +6,7 @@ Game::Game() {
     snake = new Snake(20, SIZE_FIELD);
     int apple_x = 0;
     int apple_y = 0;
-    
+    std::srand(std::time(nullptr));
     inGame = true;
     
     
@@ -15,17 +15,26 @@ Game::Game() {
 void Game::setID(int id_c) {
     id = id_c;
 }
-void Game::moveSnake(Direction dir, Packet pack) {
-
-    snake->Move(dir);
+void Game::Tick(Direction dir, Packet pack) {
     packGet = pack;
-    //generatePack();
+    generateBonus();
+    snake->Move(dir);
 
-    //snakes[!id]->setDots(pack.posX.size());
-    
-    //snakes[!id]->setXVector(pack.posX);
-    //snakes[!id]->setYVector(pack.posY);
+}
 
+
+void Game::generateBonus() {
+    bonus = packGet.bonus;
+
+    int rand = std::rand() % 1000;
+    if (rand <= 3) {
+        std::cout << "bonus";
+        int bonusId = std::rand() % 2;
+        int x = std::rand() % SIZE_FIELD + 1;
+        int y = std::rand() % SIZE_FIELD + 1;
+        std::array<short int, 3> tmp{ bonusId, x, y };
+        bonus.push_back(tmp);
+    }
 }
 
 Packet Game::generatePack(int id) {
@@ -36,10 +45,9 @@ Packet Game::generatePack(int id) {
     tmp.posX = snake->getXVector();
     tmp.posY = snake->getYVector();
     tmp.dots = snake->getDots();
+    tmp.bonus = bonus;
 
-    return tmp;
-    
-    
+    return tmp;   
 }
 
     
@@ -50,19 +58,12 @@ void Game::appleFromHost(Packet pack) {
 
 
 void Game::generateApple() {
-
-	std::srand(std::time(nullptr));
-
     // От 1 до SIZE_FIELD включительно
 
-    int r = std::rand() % SIZE_FIELD + 1;
-    apple_x = r;
-
-    r = std::rand() % SIZE_FIELD + 1;
-    apple_y = r;	
-
-    //pack.posXApple = apple_x;
-    //pack.posYApple = apple_y;
+    apple_x = std::rand() % SIZE_FIELD + 1;
+    
+    apple_y = std::rand() % SIZE_FIELD + 1;
+    	
 }
 
 bool Game::checkCollision() {
@@ -79,6 +80,28 @@ bool Game::checkCollision() {
             generateApple();
             return true;   
         }
+        int i = 0;
+        for (auto& bon : bonus) {
+            if ((xHead == bon[1]) && (yHead == bon[2])) {
+                switch (bon[0])
+                {
+                case(0): // ускорение
+                    snake->setDelay(0.03f);
+                    break;
+                case(1): //увеличение змейки
+                    snake->addDots(3);
+                    break;
+                default:
+                    break;
+                }
+                bonus.erase(bonus.begin() + i);
+                break;
+                
+
+            }
+            i++;
+        }
+
         return false;   
     
 }
@@ -134,6 +157,21 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         for (int i = 0; i < dots; ++i) {
             circle.setPosition(packGet.posX[i] * DOT_SIZE, packGet.posY[i] * DOT_SIZE);
             target.draw(circle, states);
+        }
+
+        for (auto& bon : bonus) {
+            switch (bon[0])
+            {
+            case(0): // ускорение
+                circle.setFillColor(sf::Color::Green);
+                break;
+            case(1): //увеличение змейки
+                circle.setFillColor(sf::Color::Yellow);
+                break;
+            }
+            circle.setPosition(bon[1] * DOT_SIZE, bon[2] * DOT_SIZE);
+            target.draw(circle, states);
+           
         }
         
 	}

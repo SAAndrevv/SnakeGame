@@ -12,6 +12,7 @@ struct Packet
 	std::vector<short int> posY;
 	int id;
 	int dots;
+	std::vector<std::array<short int, 3>> bonus;
 };
 
 

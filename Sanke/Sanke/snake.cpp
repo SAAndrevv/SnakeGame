@@ -6,7 +6,7 @@ Snake::Snake(int start, int size_field) {
     sField = size_field;
     time = 0.0f;
     timer = 0.0f;
-    delay = 0.2f;
+    delay = 0.3f;
    
 	dots = 3;
     x.resize(dots + 1);
@@ -122,7 +122,7 @@ float Snake::getDelay() {
 }
 
 void Snake::setDelay(float d) {
-    delay += d;
+    delay -= d;
 }
 
 void Snake::checkCol() {

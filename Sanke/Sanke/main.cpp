@@ -123,7 +123,7 @@ int main()
 		//if (timer > delay) // && 
 		//{
 			
-		game.moveSnake(direction, getPack);
+		game.Tick(direction, getPack); // С клавиатуры и полученный пакет
 		if (game.checkCollision()) {
 			sendPack = game.generatePack(1);
 		}

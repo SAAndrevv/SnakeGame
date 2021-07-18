@@ -17,8 +17,6 @@ private:
 
     Packet pack;
     Packet packGet;
-    //std::array<int, 2> apple;
-    //std::vector<Snake *> snakes;
     Snake* snake;
     int apple_x;
     int apple_y;
@@ -28,10 +26,12 @@ private:
     int y[ALL_DOTS];
 
     bool inGame;
+    std::vector<std::array<short int, 3>> bonus;
 
     
     int id;
     int count;
+    void generateBonus();
     
     
 
@@ -48,7 +48,7 @@ public:
     //void initGame(); 
     bool checkCollision();
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-    void moveSnake(Direction, Packet);
+    void Tick(Direction, Packet);
     void setID(int);
     void drawAnotherSnake(Packet);
     int getDots();
