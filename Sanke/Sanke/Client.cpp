@@ -92,8 +92,6 @@ void initSocket() {
 
 
 int startNet() {
-	//getPack.posXApple = 0;
-	//getPack.posYApple = 0;
 
 	//WSAStartup
 	WSAData wsaData;

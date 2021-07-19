@@ -11,6 +11,8 @@ const int DOT_SIZE = 10;
 const int SIZE_FIELD = 49;
 
 
+
+
 class Game : public sf::Drawable, public sf::Transformable {
 
 private:

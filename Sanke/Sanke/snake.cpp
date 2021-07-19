@@ -2,24 +2,27 @@
 #include <iostream>
 
 
-Snake::Snake(int start, int size_field) {
+Snake::Snake(int size_field) {
     sField = size_field;
     time = 0.0f;
     timer = 0.0f;
     delay = 0.3f;
-   
+    std::srand(std::time(nullptr));
 	dots = 3;
     x.resize(dots + 1);
     y.resize(dots + 1);
+
+    int xStart = std::rand() % (sField - 3) + 1;
+    int yStart = std::rand() % sField + 1;
     
 
 	for (int i = 0; i < dots; ++i) {
-		x[i] = start - i;
-		y[i] = 5;
+		x[i] = xStart - i;
+		y[i] = yStart;
 	}
 }
 
-void Snake::Move(Direction direction) {
+bool Snake::Move(Direction direction) {
     static Direction lastRemoveDirection = Direction::Right;
     static Direction lastDirection = Direction::Left;
     time = clock.getElapsedTime().asSeconds();
@@ -67,7 +70,7 @@ void Snake::Move(Direction direction) {
         
     }
 
-    checkCol();
+    return checkCol();
 }
 
 int Snake::getXPos(int ind) const{
@@ -125,13 +128,13 @@ void Snake::setDelay(float d) {
     delay -= d;
 }
 
-void Snake::checkCol() {
+bool Snake::checkCol() {
 
     for (int i = dots; i > 0; i--) {
         
         if ((dots > 4)&& (x[0] == x[i]) && (y[0] == y[i])) {
             std::cout << "Lose";
-            //return false;
+            return true;;
         }
     }
     if (y[0] > sField) {
@@ -149,7 +152,7 @@ void Snake::checkCol() {
     if (x[0] < 1) {
         x[0] = sField;
     }
-    //return true;
+    return false;
 }
 
 bool Snake::collisionWithAnotherSanke(Packet pac) {

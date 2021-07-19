@@ -1,9 +1,10 @@
 #include "Game.h"
 #include <iostream>
 
+bool isLose = false;
 
 Game::Game() {   
-    snake = new Snake(20, SIZE_FIELD);
+    snake = new Snake(SIZE_FIELD);
     int apple_x = 0;
     int apple_y = 0;
     std::srand(std::time(nullptr));
@@ -18,7 +19,9 @@ void Game::setID(int id_c) {
 void Game::Tick(Direction dir, Packet pack) {
     packGet = pack;
     generateBonus();
-    snake->Move(dir);
+    if (snake->Move(dir))
+        isLose = true;
+    
 
 }
 
@@ -26,8 +29,8 @@ void Game::Tick(Direction dir, Packet pack) {
 void Game::generateBonus() {
     bonus = packGet.bonus;
 
-    int rand = std::rand() % 1000;
-    if (rand <= 3) {
+    int rand = std::rand() % 10000;
+    if (rand <= 10) {
         std::cout << "bonus";
         int bonusId = std::rand() % 2;
         int x = std::rand() % SIZE_FIELD + 1;
@@ -70,6 +73,7 @@ bool Game::checkCollision() {
 
     if (snake->collisionWithAnotherSanke(packGet)){
         std::cout << "Collision snakes";
+        isLose = true;
     }
         int xHead = snake->getXPos(0);
         int yHead = snake->getYPos(0);

@@ -23,9 +23,9 @@ class Snake {
 
 public:
 	//Snake();
-	Snake(int, int);
+	Snake(int);
 	//void initSnake();
-	void Move(Direction);
+	bool Move(Direction);
 	int getXPos(int) const;
 	int getYPos(int) const;
 	void setXPos(int, int);
@@ -50,7 +50,7 @@ private:
 	float delay;
 	//Direction direction;
 	static const int DOT_SIZE = 10;
-	void checkCol();
+	bool checkCol();
 	int sField;
 
 	int dots;
