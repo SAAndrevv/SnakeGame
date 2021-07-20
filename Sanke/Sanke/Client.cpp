@@ -33,7 +33,15 @@ void getPacket() {
 			recv(Connection, (char*)getPack.bonus[i].data(), tTmp * sizeof(short int), NULL);
 
 		}
-		
+		recv(Connection, (char*)&getPack.idColor, sizeof(int), NULL);
+
+
+		recv(Connection, (char*)&t, sizeof(t), NULL);
+		char* msg = new char[t];
+		recv(Connection, msg, t, NULL);
+
+		getPack.name = msg;
+		delete[] msg;
 	}
 
 }
@@ -64,6 +72,12 @@ void sendPacket(Packet pack) {
 		send(Connection, (char*)&bonus, sizeArrayBonus * sizeof(short int), NULL);
 
 	}
+
+	send(Connection, (char*)&pack.idColor, sizeof(int), NULL);
+
+	int sizeName = pack.name.size() + 1;
+	send(Connection, (char*)&sizeName, sizeof(sizeName), NULL);
+	send(Connection, pack.name.c_str(), sizeName, NULL);
 		
 }
 

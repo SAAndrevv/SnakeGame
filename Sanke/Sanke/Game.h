@@ -11,8 +11,6 @@ const int DOT_SIZE = 10;
 const int SIZE_FIELD = 49;
 
 
-
-
 class Game : public sf::Drawable, public sf::Transformable {
 
 private:
@@ -23,6 +21,7 @@ private:
     int apple_x;
     int apple_y;
     int dots;
+    std::string name;
 
     int x[ALL_DOTS];
     int y[ALL_DOTS];
@@ -33,15 +32,21 @@ private:
     
     int idSendPack;
     int count;
+    int idColor;
+    bool targetBonus = false;
+    
     void generateBonus();
+    void bonusOnSnake();
     
     
 
 public:
     Direction direction;
-
     Game();
     ~Game();
+    void setName(std::string);
+    void setIdColor(int);
+    sf::Color colorReturner(int) const;
     //void addSnake(Packet);
     Packet generatePack(int);
     void generateApple();

@@ -23,8 +23,10 @@ void converAndSaveText(std::ostringstream&, sf::Text&, int, std::string);
 void makeTimerText(std::ostringstream&, sf::Text&, int);
 
 
-int main()
+void StartGame(std::string name, int idColor)
 {
+	sendPack.name = name;
+	sendPack.idColor = idColor;
 	Game game;
 
 	if (startNet()) {
@@ -36,6 +38,8 @@ int main()
 		idClient = 1;	
 		sendPack = game.generatePack(0);
 	}
+	game.setIdColor(idColor);
+	game.setName(name);
 	sendPacket(sendPack);
 
 	
@@ -56,7 +60,7 @@ int main()
 	sf::Font font;
 	font.loadFromFile("calibri.ttf");
 
-	sf::Text player1("Score 3", font, 20);
+	sf::Text player1(name + " 3", font, 20);
 	player1.setFillColor(sf::Color::Cyan);
 	player1.setPosition(5.f, 5.f);
 
@@ -132,8 +136,8 @@ int main()
 			else {
 				sendPack = game.generatePack(0);
 			}
-			converAndSaveText(ostr, player1, game.getDots(), str);
-			converAndSaveText(ostr, player2, getPack.dots, str);
+			converAndSaveText(ostr, player1, game.getDots(), name);
+			converAndSaveText(ostr, player2, getPack.dots, getPack.name);
 			makeTimerText(ostr, timerText, timer.asSeconds());
 
 		}
@@ -151,14 +155,12 @@ int main()
 
 		window.display();
 	}
-
-    return 0;
 }
 
 
 void converAndSaveText(std::ostringstream& ostr, sf::Text& text, int numb, std::string str = "") {
 	ostr << numb;
-	text.setString(str + ostr.str());
+	text.setString(str + " " + ostr.str());
 
 	ostr.str("");
 	ostr.clear();
@@ -184,4 +186,19 @@ void makeTimerText(std::ostringstream& ostr, sf::Text& text, int time) {
 		text.setString(minStr + ":0" + secStr);
 
 
+}
+
+int main() {
+	std::string name;
+	int idColor = 1;
+
+	std::cout << "Enter you name: \n";
+	std::cin >> name;
+
+	std::cout << "Choce color you snake:\n1.White\n2.Red\n3.Magenta\n4.Yellow\n\nTYPE ONLY NUMBER\n";
+	std::cin >> idColor;
+
+	StartGame(name, idColor);
+
+	return 0;
 }

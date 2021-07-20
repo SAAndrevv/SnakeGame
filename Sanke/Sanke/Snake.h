@@ -13,6 +13,8 @@ struct Packet
 	int id;
 	int dots;
 	std::vector<std::array<short int, 3>> bonus;
+	std::string name;
+	int idColor;
 };
 
 
