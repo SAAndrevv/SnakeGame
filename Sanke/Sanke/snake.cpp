@@ -81,13 +81,6 @@ int Snake::getYPos(int ind) const{
     return y[ind];
 }
 
-void Snake::setXPos(int ind, int val){
-    x[ind] = val;
-}
-
-void Snake::setYPos(int ind, int val) {
-    y[ind] = val;
-}
 
 int Snake::getDots() const{
     return dots;
@@ -101,27 +94,12 @@ void Snake::addDots(int count) {
     
 }
 
-//void Snake::setDirection(Direction _direction) {
-    //direction = _direction;
-//}
-
 std::vector<short int> Snake::getXVector() {
     return x;
 }
 
 std::vector<short int> Snake::getYVector() {
     return y;
-}
-//void Snake::setXVector(std::vector<short int> xVect) {
-    //x = xVect;
-//}
-
-//void Snake::setYVector(std::vector<short int> yVect) {
-    //y = yVect;
-//}
-
-float Snake::getDelay() {
-    return delay;
 }
 
 void Snake::setDelay(float d) {
@@ -133,7 +111,6 @@ bool Snake::checkCol() {
     for (int i = dots; i > 0; i--) {
         
         if ((dots > 4)&& (x[0] == x[i]) && (y[0] == y[i])) {
-            std::cout << "Lose";
             return true;;
         }
     }
@@ -159,7 +136,7 @@ bool Snake::collisionWithAnotherSanke(Packet pac) {
     int lenghSnake = pac.posX.size() - 1;
 
     for (int i = 0; i < lenghSnake; ++i) {
-        if (x[0] == pac.posX[0] && y[0] == pac.posY[0])
+        if (x[0] == pac.posX[i] && y[0] == pac.posY[i])
             return true;
     }
    return false;

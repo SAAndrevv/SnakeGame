@@ -49,7 +49,7 @@ int main()
     window.setFramerateLimit(60);
 
 	
-	game.setID(idClient);
+	//game.setID(idClient);
 	
     game.setPosition(20.f, 50.f);
 
@@ -70,15 +70,20 @@ int main()
 
 	sf::Text endGameText("", font, 40);
 	endGameText.setFillColor(sf::Color::White);
-	endGameText.setPosition(230.f, 250.f);
+	endGameText.setPosition(200.f, 250.f);
 
     sf::Event event;
 
 	while (window.isOpen())
 	{
 		timer = playTime - clock.getElapsedTime();
-		if (timer.asSeconds() < 0)
+		if (timer.asSeconds() < 0) {
 			isGame = false;
+			if(game.getDots() > getPack.posX.size() - 1) endGameText.setString("You won");
+			else if(game.getDots() < getPack.posX.size() - 1) endGameText.setString("You lose");
+			else endGameText.setString("Battle draw");
+				
+		}
 
 		if (isLose) {
 			isGame = false;
@@ -173,5 +178,10 @@ void makeTimerText(std::ostringstream& ostr, sf::Text& text, int time) {
 	ostr.str("");
 	ostr.clear();
 
-	text.setString(minStr + ":" + secStr);
+	if (sec > 9)
+		text.setString(minStr + ":" + secStr);
+	else
+		text.setString(minStr + ":0" + secStr);
+
+
 }

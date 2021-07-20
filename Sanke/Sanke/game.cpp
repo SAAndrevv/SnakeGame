@@ -13,35 +13,45 @@ Game::Game() {
     
 }
 
-void Game::setID(int id_c) {
-    id = id_c;
-}
 void Game::Tick(Direction dir, Packet pack) {
-    packGet = pack;
-    generateBonus();
+    packGet = pack;  
     if (snake->Move(dir))
         isLose = true;
+    generateBonus();
     
-
 }
 
 
 void Game::generateBonus() {
-    bonus = packGet.bonus;
+    static bool triger;
+    if (idSendPack == 1)
+        triger = true;
+    else if (packGet.id == 1) {
+        triger = false;
 
-    int rand = std::rand() % 10000;
-    if (rand <= 10) {
-        std::cout << "bonus";
-        int bonusId = std::rand() % 2;
-        int x = std::rand() % SIZE_FIELD + 1;
-        int y = std::rand() % SIZE_FIELD + 1;
-        std::array<short int, 3> tmp{ bonusId, x, y };
-        bonus.push_back(tmp);
     }
+
+    
+    if(triger){
+        int rand = std::rand() % 10000;
+        if (rand <= 10) {
+            int bonusId = std::rand() % 2;
+            int x = std::rand() % SIZE_FIELD + 1;
+            int y = std::rand() % SIZE_FIELD + 1;
+            std::array<short int, 3> tmp{ bonusId, x, y };
+            bonus.push_back(tmp);
+        }
+    }
+    else {
+        bonus = packGet.bonus;
+    }
+       
 }
 
 Packet Game::generatePack(int id) {
-    Packet tmp;
+    idSendPack = id;
+
+    Packet tmp;   
     tmp.id = id;
     tmp.apple[0] = apple_x;
     tmp.apple[1] = apple_y;
@@ -72,7 +82,6 @@ void Game::generateApple() {
 bool Game::checkCollision() {
 
     if (snake->collisionWithAnotherSanke(packGet)){
-        std::cout << "Collision snakes";
         isLose = true;
     }
         int xHead = snake->getXPos(0);
@@ -90,7 +99,7 @@ bool Game::checkCollision() {
                 switch (bon[0])
                 {
                 case(0): // ускорение
-                    snake->setDelay(0.03f);
+                    snake->setDelay(0.02f);
                     break;
                 case(1): //увеличение змейки
                     snake->addDots(3);
@@ -99,7 +108,7 @@ bool Game::checkCollision() {
                     break;
                 }
                 bonus.erase(bonus.begin() + i);
-                break;
+                return true;
                 
 
             }

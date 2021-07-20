@@ -31,7 +31,7 @@ private:
     std::vector<std::array<short int, 3>> bonus;
 
     
-    int id;
+    int idSendPack;
     int count;
     void generateBonus();
     

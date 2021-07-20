@@ -22,26 +22,18 @@ const int ALL_DOTS = 3600;
 class Snake {
 
 public:
-	//Snake();
 	Snake(int);
-	//void initSnake();
 	bool Move(Direction);
 	int getXPos(int) const;
 	int getYPos(int) const;
-	void setXPos(int, int);
-	void setYPos(int, int);
 	int getDots() const;
 	void addDots(int);
-	//void setDirection(Direction);
-	float getDelay();
 	void setDelay(float);
 	bool collisionWithAnotherSanke(Packet);
 
 	std::vector<short int> getXVector();
 	std::vector<short int> getYVector();
 
-	//void setXVector(std::vector<short int>);
-	//void setYVector(std::vector<short int>);
 
 private:
 	sf::Clock clock;
@@ -56,11 +48,5 @@ private:
 	int dots;
 	std::vector<short int> x;
 	std::vector<short int> y;
-	//int x[ALL_DOTS];
-	//int y[ALL_DOTS];
-
-	//void checkCollision();
-
-
 
 };
