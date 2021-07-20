@@ -1,13 +1,21 @@
 #include "Client.h"
 
-bool isHost = false;
 SOCKET Connection;
 
 Packet getPack;
 
+extern bool isGame;
+
 
 void getPacket() {
 	while (true) {
+
+		if (!isGame) {
+			std::cout << "Close cosket..." << std::endl;
+			closesocket(Connection);
+			break;
+
+		}
 		size_t t;
 		
 		recv(Connection, (char*)&t, sizeof(t), NULL);
@@ -83,7 +91,6 @@ void sendPacket(Packet pack) {
 
 
 void initSocket() {
-	isHost = true;
 
 	SOCKADDR_IN addr;
 	int sizeofaddr = sizeof(addr);
@@ -92,8 +99,17 @@ void initSocket() {
 	addr.sin_family = AF_INET;
 
 	SOCKET sListen = socket(AF_INET, SOCK_STREAM, NULL);
-	bind(sListen, (SOCKADDR*)&addr, sizeof(addr));
-	listen(sListen, SOMAXCONN);
+	if (bind(sListen, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR)
+	{ // ошибка
+		WSACleanup();  // выгружаем WinSock
+		return;
+	}
+	if (listen(sListen, 1) == SOCKET_ERROR)
+	{ // ошибка! Прослушивание не возможно
+		WSACleanup();
+		return;
+	}
+	
 	
 
 	Connection = accept(sListen, (SOCKADDR*)&addr, &sizeofaddr);
@@ -112,6 +128,7 @@ int startNet() {
 	WORD DLLVersion = MAKEWORD(2, 1);
 	if (WSAStartup(DLLVersion, &wsaData) != 0) {
 		std::cout << "Error" << std::endl;
+		WSACleanup();
 		exit(1);
 	}
 

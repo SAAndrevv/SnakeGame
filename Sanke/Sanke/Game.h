@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Snake.h"
-#include <array>
+#include <thread>
+//#include <array>
 
 
 const int W_WIDTH = 500;
@@ -15,49 +16,37 @@ class Game : public sf::Drawable, public sf::Transformable {
 
 private:
 
-    Packet pack;
-    Packet packGet;
+    Packet getPacket;
     Snake* snake;
+
     int apple_x;
     int apple_y;
     int dots;
-    std::string name;
-
-    int x[ALL_DOTS];
-    int y[ALL_DOTS];
-
-    bool inGame;
-    std::vector<std::array<short int, 3>> bonus;
-
-    
     int idSendPack;
-    int count;
     int idColor;
-    bool targetBonus = false;
-    
+    bool targetBonus;
+    bool inGame;
+    std::string name;
+  
+    std::vector<std::array<short int, 3>> bonus;
+  
+
     void generateBonus();
     void bonusOnSnake();
     
     
-
 public:
-    Direction direction;
     Game();
     ~Game();
     void setName(std::string);
     void setIdColor(int);
     sf::Color colorReturner(int) const;
-    //void addSnake(Packet);
     Packet generatePack(int);
     void generateApple();
     void appleFromHost(Packet);
-    void appleToClient();
-    //void initGame(); 
     bool checkCollision();
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     void Tick(Direction, Packet);
-    void setID(int);
-    void drawAnotherSnake(Packet);
     int getDots();
     
 

@@ -19,7 +19,6 @@ struct Packet
 
 
 enum class Direction { Left, Right, Up, Down };
-const int ALL_DOTS = 3600;
 
 class Snake {
 
@@ -39,16 +38,17 @@ public:
 
 private:
 	sf::Clock clock;
+
 	float time;
 	float timer;
 	float delay;
-	//Direction direction;
 	static const int DOT_SIZE = 10;
-	bool checkCol();
 	int sField;
-
 	int dots;
+
 	std::vector<short int> x;
 	std::vector<short int> y;
+
+	bool checkCol();
 
 };

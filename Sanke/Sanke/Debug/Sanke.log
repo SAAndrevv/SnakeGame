@@ -1,26 +1,26 @@
 ﻿  game.cpp
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(11,25): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(45,43): warning C4838: Преобразование из "int" в "_Ty" требует сужающего преобразования.
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(7,25): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(47,43): warning C4838: Преобразование из "int" в "_Ty" требует сужающего преобразования.
           with
           [
               _Ty=short
           ]
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(45,52): warning C4838: Преобразование из "int" в "_Ty" требует сужающего преобразования.
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(47,52): warning C4838: Преобразование из "int" в "_Ty" требует сужающего преобразования.
           with
           [
               _Ty=short
           ]
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(45,55): warning C4838: Преобразование из "int" в "_Ty" требует сужающего преобразования.
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(47,55): warning C4838: Преобразование из "int" в "_Ty" требует сужающего преобразования.
           with
           [
               _Ty=short
           ]
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(200,56): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(200,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(213,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(213,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(221,76): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(221,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(238,58): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(238,39): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(195,56): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(195,36): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(208,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(208,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(216,80): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(216,50): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(233,58): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Sanke\game.cpp(233,39): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
   Sanke.vcxproj -> C:\Users\SAAnd\Documents\GitHub\SnakeGame\Sanke\Debug\Sanke.exe

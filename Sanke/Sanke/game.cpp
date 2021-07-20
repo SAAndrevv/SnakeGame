@@ -1,21 +1,23 @@
 #include "Game.h"
 #include <iostream>
-#include <thread>
 
 bool isLose = false;
 
-Game::Game() {   
+Game::Game() {  
+    std::srand(std::time(nullptr));
+
     snake = new Snake(SIZE_FIELD);
+
     int apple_x = 0;
     int apple_y = 0;
-    std::srand(std::time(nullptr));
+    targetBonus = false;  
     inGame = true;
     targetBonus = false;
     
 }
 
 void Game::Tick(Direction dir, Packet pack) {
-    packGet = pack;  
+    getPacket = pack;
     if (targetBonus) {
         std::thread thr(&Game::bonusOnSnake, this);
         thr.detach();
@@ -31,7 +33,7 @@ void Game::generateBonus() {
     static bool triger;
     if (idSendPack == 1)
         triger = true;
-    else if (packGet.id == 1) {
+    else if (getPacket.id == 1) {
         triger = false;
 
     }
@@ -39,7 +41,7 @@ void Game::generateBonus() {
     if(triger){
         int rand = std::rand() % 10000;
         if (rand <= 10) {
-            int bonusId = std::rand() %  3; 
+            int bonusId = std::rand() % 3;
             int x = std::rand() % SIZE_FIELD + 1;
             int y = std::rand() % SIZE_FIELD + 1;
             std::array<short int, 3> tmp{ bonusId, x, y };
@@ -47,7 +49,7 @@ void Game::generateBonus() {
         }
     }
     else {
-        bonus = packGet.bonus;
+        bonus = getPacket.bonus;
     }
        
 }
@@ -91,7 +93,7 @@ void Game::generateApple() {
 
 bool Game::checkCollision() {
 
-    if (snake->collisionWithAnotherSanke(packGet)){
+    if (snake->collisionWithAnotherSanke(getPacket)){
         isLose = true;
     }
         int xHead = snake->getXPos(0);
@@ -114,22 +116,20 @@ bool Game::checkCollision() {
                 case(1): //увеличение змейки
                     snake->addDots(3);
                     break;
-                case(3):
+                case(3): // маскировка
                     targetBonus = true;
                 default:
                     break;
                 }
                 bonus.erase(bonus.begin() + i);
                 return true;
-                
-
             }
             i++;
         }
 
         return false;   
-    
 }
+
 int Game::getDots() {
     return snake->getDots();
 }
@@ -155,9 +155,6 @@ sf::Color Game::colorReturner(int idColor) const {
     }
 }
 
-void Game::drawAnotherSnake(Packet pac){
-    packGet = pac;
-}
 
 void Game::setIdColor(int idColor_) {
     idColor = idColor_;
@@ -168,10 +165,9 @@ void Game::bonusOnSnake() {
     sf::Clock time;
     sf::Time bonusTimer = sf::seconds(20);
     int origIdColor = idColor;
-    idColor = packGet.idColor;
+    idColor = getPacket.idColor;
     while ((bonusTimer - time.getElapsedTime()).asSeconds() > 0);
-        
-    
+          
     idColor = origIdColor;
 
 }
@@ -195,8 +191,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	circle.setFillColor(sf::Color::Blue);
 	
 	if (inGame) {
-
-       
+  
         circle.setPosition(apple_x * DOT_SIZE, apple_y * DOT_SIZE);
         target.draw(circle, states);
         circle.setFillColor(colorReturner(idColor));
@@ -215,10 +210,10 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
         }
 
-        dots = packGet.dots;
-        circle.setFillColor(colorReturner(packGet.idColor));
+        dots = getPacket.dots;
+        circle.setFillColor(colorReturner(getPacket.idColor));
         for (int i = 0; i < dots; ++i) {
-            circle.setPosition(packGet.posX[i] * DOT_SIZE, packGet.posY[i] * DOT_SIZE);
+            circle.setPosition(getPacket.posX[i] * DOT_SIZE, getPacket.posY[i] * DOT_SIZE);
             target.draw(circle, states);
         }
 
@@ -242,7 +237,6 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
         
 	}
 }
-
 
 Game::~Game() {
     
