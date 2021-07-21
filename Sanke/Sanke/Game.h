@@ -30,7 +30,6 @@ private:
   
     std::vector<std::array<short int, 3>> bonus;
   
-
     void generateBonus();
     void bonusOnSnake();
     
@@ -48,8 +47,5 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     void Tick(Direction, Packet);
     int getDots();
-    
-
-
-
+   
 };

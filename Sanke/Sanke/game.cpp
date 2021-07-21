@@ -41,7 +41,8 @@ void Game::generateBonus() {
     if(triger){
         int rand = std::rand() % 10000;
         if (rand <= 10) {
-            int bonusId = std::rand() % 3;
+            int bonusId = std::rand() %  3; 
+            std::cout << bonusId << std::endl;
             int x = std::rand() % SIZE_FIELD + 1;
             int y = std::rand() % SIZE_FIELD + 1;
             std::array<short int, 3> tmp{ bonusId, x, y };
@@ -83,7 +84,7 @@ void Game::appleFromHost(Packet pack) {
 
 
 void Game::generateApple() {
-    // От 1 до SIZE_FIELD включительно
+    // От 1 до SIZE_FIELD
 
     apple_x = std::rand() % SIZE_FIELD + 1;
     
@@ -116,7 +117,7 @@ bool Game::checkCollision() {
                 case(1): //увеличение змейки
                     snake->addDots(3);
                     break;
-                case(3): // маскировка
+                case(2): // маскировка
                     targetBonus = true;
                 default:
                     break;
@@ -226,7 +227,7 @@ void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
             case(1): //увеличение змейки
                 circle.setFillColor(sf::Color::Yellow);
                 break;
-            case(3): // маскировка
+            case(2): // маскировка
                 circle.setFillColor(sf::Color::White); 
                 break;
             }

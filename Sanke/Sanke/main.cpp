@@ -95,17 +95,11 @@ void StartGame(std::string name, int idColor)
 			if (event.type == sf::Event::KeyPressed)
 			{
 				// ѕолучаем нажатую клавишу - выполн€ем соответствующее действие
-				//if (event.key.code == sf::Keyboard::Escape) window.close();
 				if (event.key.code == sf::Keyboard::Left) direction = Direction::Left;
 				if (event.key.code == sf::Keyboard::Right) direction = Direction::Right;
 				if (event.key.code == sf::Keyboard::Up) direction = Direction::Up;
                 if (event.key.code == sf::Keyboard::Down) direction = Direction::Down;
-				// Ќова€ игра
-				//if (event.key.code == sf::Keyboard::F2)
-				//{
-					//game.initGame();
 
-				//}
 			}			
 		}
 		
@@ -177,7 +171,7 @@ int main() {
 	std::cout << "Enter you name: \n";
 	std::cin >> name;
 
-	std::cout << "Choce color you snake:\n1.White\n2.Red\n3.Magenta\n4.Yellow\n\nTYPE ONLY NUMBER\n";
+	std::cout << "Choose the color of your snake:\n1.White\n2.Red\n3.Magenta\n4.Yellow\n\nType only a number\n";
 	std::cin >> idColor;
 
 	StartGame(name, idColor);

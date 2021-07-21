@@ -10,12 +10,6 @@ extern bool isGame;
 void getPacket() {
 	while (true) {
 
-		if (!isGame) {
-			std::cout << "Close cosket..." << std::endl;
-			closesocket(Connection);
-			break;
-
-		}
 		size_t t;
 		
 		recv(Connection, (char*)&t, sizeof(t), NULL);
